@@ -31,7 +31,7 @@ RUN wget --no-verbose "https://services.gradle.org/distributions/gradle-${GRADLE
 RUN chown root:root /opt/gradle-${GRADLE_VERSION}/lib/plugins/commons-compress-1.21.jar \  
     && rm /opt/gradle-${GRADLE_VERSION}/lib/plugins/commons-compress-1.21.jar \
     && wget --no-verbose "https://repo1.maven.org/maven2/org/apache/commons/commons-compress/1.26.0/commons-compress-1.26.0.jar" \  
-    && mv commons-compress-1.26.0.jar /opt/gradle-${GRADLE_VERSION}/lib/plugins/commons-compress.jar \     
+    && mv commons-compress-1.26.0.jar /opt/gradle-${GRADLE_VERSION}/lib/plugins/commons-compress.jar 
 
 # Configuracion variables de entorno de Gradle
 ENV GRADLE_HOME=/opt/gradle-${GRADLE_VERSION}
