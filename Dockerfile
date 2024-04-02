@@ -25,10 +25,14 @@ RUN wget --no-verbose "https://services.gradle.org/distributions/gradle-${GRADLE
     && wget "https://repo1.maven.org/maven2/org/testng/testng/7.5.1/testng-7.5.1.jar" \
     && mv testng-7.5.1.jar /opt/gradle-${GRADLE_VERSION}/lib/plugins/ \
     && rm /opt/gradle-${GRADLE_VERSION}/lib/plugins/testng-6.3.1.jar \
-    && mv /opt/gradle-${GRADLE_VERSION}/lib/plugins/testng-7.5.1.jar /opt/gradle-${GRADLE_VERSION}/lib/plugins/testng-6.3.1.jar \
+    && mv /opt/gradle-${GRADLE_VERSION}/lib/plugins/testng-7.5.1.jar /opt/gradle-${GRADLE_VERSION}/lib/plugins/testng-6.3.1.jar 
+
+# Cambiar el propietario y los permisos del archivo antes de intentar eliminarlo
+
+RUN chown root:root /opt/gradle-${GRADLE_VERSION}/lib/plugins/commons-compress-1.21.jar \  
+    && rm /opt/gradle-${GRADLE_VERSION}/lib/plugins/commons-compress-1.21.jar
     && wget --no-verbose "https://repo1.maven.org/maven2/org/apache/commons/commons-compress/1.26.0/commons-compress-1.26.0.jar" \  
     && mv commons-compress-1.26.0.jar /opt/gradle-${GRADLE_VERSION}/lib/plugins/commons-compress.jar \     
-    && rm /opt/gradle-${GRADLE_VERSION}/lib/plugins/commons-compress-1.21.jar
 
 # Configuracion variables de entorno de Gradle
 ENV GRADLE_HOME=/opt/gradle-${GRADLE_VERSION}
