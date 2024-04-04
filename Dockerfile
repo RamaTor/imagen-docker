@@ -1,5 +1,4 @@
 FROM ubuntu:22.04
- 
 # Instalacion de dependencias
 RUN apt-get update \
 && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends openjdk-17-jdk wget unzip git xvfb \
@@ -8,11 +7,9 @@ RUN apt-get update \
 && rm /tmp/chrome.deb \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
- 
 #Variables de entorno Java 
 ENV JAVA_HOME='/usr/lib/jvm/java-17-openjdk-amd64'
 ENV PATH=${JAVA_HOME}/bin:${PATH}
- 
 # Descargar e instalar Gradle
 ENV GRADLE_VERSION=8.5
 RUN wget --no-verbose "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip" \
@@ -26,23 +23,20 @@ RUN wget --no-verbose "https://services.gradle.org/distributions/gradle-${GRADLE
 && mv testng-7.5.1.jar /opt/gradle-${GRADLE_VERSION}/lib/plugins/ \
 && rm /opt/gradle-${GRADLE_VERSION}/lib/plugins/testng-6.3.1.jar \
 && mv /opt/gradle-${GRADLE_VERSION}/lib/plugins/testng-7.5.1.jar /opt/gradle-${GRADLE_VERSION}/lib/plugins/testng-6.3.1.jar
- 
 # Configuracion variables de entorno de Gradle
 ENV GRADLE_HOME=/opt/gradle-${GRADLE_VERSION}
 ENV PATH=${GRADLE_HOME}/bin:${PATH}
- 
 # Variables de entorno
 ENV RAMA=${RAMA}
 ENV REPOSITORIO=${REPOSITORIO}
 ENV TAG=${TAG}
 ENV NAV=${NAV}
- 
 #Agregar el directorio de trabajo donde se ejecutarán los comandos relacionados con Gradle y donde se encontrarán los archivos necesarios para la ejecución de las pruebas
 WORKDIR /opt
- 
 #Copiar los scripts de prueba al contenedor: 
 COPY app /opt
- 
 #ejecuta el framework
 RUN chmod +x entrypoint.sh
 ENTRYPOINT /bin/bash entrypoint.sh ${RAMA} ${REPOSITORIO} ${TAG} ${NAV}
+RUN apt-get clean \
+&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
